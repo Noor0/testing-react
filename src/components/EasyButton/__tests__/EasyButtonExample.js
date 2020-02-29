@@ -1,9 +1,8 @@
 import React from "react";
-import { shallow, mount } from "enzyme";
+import { mount } from "enzyme";
 
 import EasyButton from "../EasyButton";
 import EasyButtonExample from "../EasyButtonExample";
-import { ThemeProvider, useTheme } from "../theme";
 
 describe("<EasyButtonExample />", () => {
   let wrapper;
