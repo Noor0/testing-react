@@ -27,17 +27,15 @@ describe("<Login />", () => {
   });
 
   test("should call onSubmit with username and password", () => {
+    const wrapper = mount(<Login onSubmit={mockOnSubmit} />);
+
+    const username = getUsernameField(wrapper);
+    const password = getPasswordField(wrapper);
+
     username.getDOMNode().value = "username";
     password.getDOMNode().value = "password";
 
-    button.simulate("submit", {
-      target: {
-        elements: {
-          username: username.getDOMNode(),
-          password: password.getDOMNode()
-        }
-      }
-    });
+    wrapper.simulate("submit");
 
     expect(mockOnSubmit).toHaveBeenCalledWith({
       username: "username",
