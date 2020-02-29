@@ -15,6 +15,12 @@ describe("<Login />", () => {
   });
 
   test("should have username, password and submit button", () => {
+    const wrapper = shallow(<Login />);
+
+    const username = getUsernameField(wrapper);
+    const password = getPasswordField(wrapper);
+    const button = getButton(wrapper);
+
     expect(username).toExist();
     expect(password).toExist();
     expect(button).toExist();
