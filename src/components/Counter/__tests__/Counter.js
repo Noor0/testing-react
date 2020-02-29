@@ -12,11 +12,9 @@ describe("<Counter />", () => {
 
   test("should increment on clicking the button", () => {
     wrapper.find("button").simulate("click");
-    wrapper.update();
     expect(wrapper.find("button").text()).toEqual("1");
 
     wrapper.find("button").simulate("click");
-    wrapper.update();
     expect(wrapper.find("button").text()).toEqual("2");
   });
 });
