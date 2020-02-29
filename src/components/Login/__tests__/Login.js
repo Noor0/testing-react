@@ -11,10 +11,7 @@ describe("<Login />", () => {
   const getButton = wrapper => wrapper.find("button");
 
   beforeEach(() => {
-    wrapper = mount(<Login onSubmit={mockOnSubmit} />);
-    username = wrapper.find("input[name='username']");
-    password = wrapper.find("input[name='password']");
-    button = wrapper.find("button");
+    mockOnSubmit.mockReset();
   });
 
   test("should have username, password and submit button", () => {
