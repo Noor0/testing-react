@@ -1,5 +1,5 @@
 import React from "react";
-import { mount } from "enzyme";
+import { shallow } from "enzyme";
 
 import Counter from "../Counter";
 
@@ -7,19 +7,32 @@ describe("<Counter />", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = mount(<Counter />);
+    wrapper = shallow(<Counter />);
   });
 
   test("should increment on clicking the button", () => {
-    const button = wrapper.find("button");
+    wrapper.find("button").simulate("click");
+    wrapper.update();
+    expect(wrapper.find("button").text()).toEqual("1");
 
-    button.simulate("click");
-    expect(button.text()).toEqual("1");
-
-    button.simulate("click");
-    expect(button.text()).toEqual("2");
+    wrapper.find("button").simulate("click");
+    wrapper.update();
+    expect(wrapper.find("button").text()).toEqual("2");
   });
 });
+
+/*
+ * refinding the components in shallow mode seems to solve the update problem
+ * since simulate() simulates nothing it finds the handler in prop and execute
+ * it
+ * https://enzymejs.github.io/enzyme/docs/guides/migration-from-2-to-3.html#calling-props-after-a-state-change
+ */
+
+/*
+ * state updates work as expected with mount and not with shallow probably
+ * because of this:
+ * https://enzymejs.github.io/enzyme/docs/guides/migration-from-2-to-3.html#for-mount-updates-are-sometimes-required-when-they-werent-before
+ */
 
 /*
  * not using shallow because there's some bug that doesn't update components that
