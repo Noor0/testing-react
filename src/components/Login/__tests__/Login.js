@@ -6,7 +6,9 @@ import Login from "../Login";
 describe("<Login />", () => {
   const mockOnSubmit = jest.fn();
 
-  let wrapper, username, password, button;
+  const getUsernameField = wrapper => wrapper.find("input[name='username']");
+  const getPasswordField = wrapper => wrapper.find("input[name='password']");
+  const getButton = wrapper => wrapper.find("button");
 
   beforeEach(() => {
     wrapper = mount(<Login onSubmit={mockOnSubmit} />);
