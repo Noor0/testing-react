@@ -86,6 +86,16 @@ describe("<LoginSubmission />", () => {
 
     expect(wrapper).toIncludeText(message);
   });
+
+  test("should navigate to /app after success", async () => {
+    const wrapper = mount(<LoginSubmission />);
+
+    wrapper.find(Login).invoke("onSubmit")("anything");
+    await flushPromisesAct();
+    wrapper.update();
+
+    expect(navigate).toHaveBeenCalledWith("/app");
+  });
 });
 
 /*
@@ -96,4 +106,13 @@ describe("<LoginSubmission />", () => {
 /*
  * don't understand why I had to use act twice in the last test but it wouldn't
  * update the enzyme representation
+ */
+
+/*
+ * await act(async () => (...)) adds a wrapper.update() at the end of microtask
+ * queue flushPromises makes it easier to reason about the state change and
+ * makes wrapper.update() more predictable, we wait until all our promise
+ * callbacks are executed and wrap flushPromises() in act as some of the
+ * callbacks are causing changes to the component and then we update enzyme's
+ * represenation of the react tree to assert.
  */
