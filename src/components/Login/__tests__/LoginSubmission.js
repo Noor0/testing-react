@@ -24,17 +24,18 @@ describe("<LoginSubmission />", () => {
     password: "password"
   };
 
+  let wrapper, onSubmit;
+
   beforeAll(() => {
     window.fetch = mockFetch;
   });
 
   beforeEach(() => {
     mockFetch.mockClear();
-    window.localStorage.clear();
-  });
-
-  afterEach(() => {
     window.fetch = mockFetch;
+    window.localStorage.clear();
+    wrapper = mount(<LoginSubmission />);
+    onSubmit = wrapper.find(Login).invoke("onSubmit");
   });
 
   afterAll(() => {
@@ -42,9 +43,7 @@ describe("<LoginSubmission />", () => {
   });
 
   test("should make a fetch request on form submission and save token in local storage", async () => {
-    const wrapper = mount(<LoginSubmission />);
-
-    wrapper.find(Login).invoke("onSubmit")(creds);
+    onSubmit(creds);
 
     // for state update in useEffect after fetch is successful
     await flushPromisesAct();
@@ -58,11 +57,9 @@ describe("<LoginSubmission />", () => {
   });
 
   test("should show and hide spinner", async () => {
-    const wrapper = mount(<LoginSubmission />);
-
     expect(wrapper.find(".lds-ripple")).not.toExist();
 
-    wrapper.find(Login).invoke("onSubmit")(creds);
+    onSubmit(creds);
     expect(wrapper.find(".lds-ripple")).toExist();
 
     await flushPromisesAct();
@@ -71,7 +68,6 @@ describe("<LoginSubmission />", () => {
     expect(wrapper.find(".lds-ripple")).not.toExist();
   });
 
-  // I feel like this test can be written in a better way
   test("should show error on request failure", async () => {
     const message = "request failed";
     const mockFetchFail = jest.fn().mockRejectedValue({ errors: [message] });
@@ -88,9 +84,7 @@ describe("<LoginSubmission />", () => {
   });
 
   test("should navigate to /app after success", async () => {
-    const wrapper = mount(<LoginSubmission />);
-
-    wrapper.find(Login).invoke("onSubmit")("anything");
+    onSubmit("anything");
     await flushPromisesAct();
     wrapper.update();
 
