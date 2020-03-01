@@ -41,7 +41,8 @@ describe("<LoginSubmission />", () => {
     wrapper.find(Login).invoke("onSubmit")(creds);
 
     // for state update in useEffect after fetch is successful
-    await act(async () => await wrapper.update());
+    await flushPromisesAct();
+    wrapper.update();
 
     expect(mockFetch).toHaveBeenCalledWith(
       "/api/login",
