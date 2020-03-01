@@ -13,7 +13,7 @@
 
 import React from "react";
 import { navigate } from "@reach/router";
-import Login from "./login";
+import Login from "./Login";
 
 function formSubmissionReducer(state, action) {
   switch (action.type) {
