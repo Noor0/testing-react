@@ -1,12 +1,18 @@
 import React from "react";
 import { act } from "react-dom/test-utils";
 import { shallow, mount } from "enzyme";
-import * as ReachRouter from "@reach/router";
+import { navigate } from "@reach/router";
 
 import LoginSubmission from "../LoginSubmission";
 import Login from "../Login";
 
 jest.mock("@reach/router");
+
+const flushPromises = () => new Promise(setImmediate);
+const flushPromisesAct = async () =>
+  await act(async () => {
+    await flushPromises();
+  });
 
 describe("<LoginSubmission />", () => {
   const mockFetch = jest.fn().mockResolvedValue({
@@ -57,14 +63,11 @@ describe("<LoginSubmission />", () => {
     expect(wrapper.find(".lds-ripple")).not.toExist();
 
     wrapper.find(Login).invoke("onSubmit")(creds);
-    await act(async () => {
-      wrapper.update();
-    });
     expect(wrapper.find(".lds-ripple")).toExist();
 
-    await act(async () => {
-      wrapper.update();
-    });
+    await flushPromisesAct();
+    wrapper.update();
+
     expect(wrapper.find(".lds-ripple")).not.toExist();
   });
 
@@ -78,12 +81,9 @@ describe("<LoginSubmission />", () => {
     const wrapper = mount(<LoginSubmission />);
 
     wrapper.find(Login).invoke("onSubmit")("anything");
-    await act(async () => {
-      wrapper.update();
-    });
-    await act(async () => {
-      wrapper.update();
-    });
+    await flushPromisesAct();
+    wrapper.update();
+
     expect(wrapper).toIncludeText(message);
   });
 });
