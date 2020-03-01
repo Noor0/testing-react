@@ -104,7 +104,8 @@ describe("<LoginSubmission />", () => {
 
 /*
  * await act(async () => (...)) adds a wrapper.update() at the end of microtask
- * queue flushPromises makes it easier to reason about the state change and
+ * queue which is why two async acts were required to get the final state.
+ * flushPromises makes it easier to understand the order of execution of code and
  * makes wrapper.update() more predictable, we wait until all our promise
  * callbacks are executed and wrap flushPromises() in act as some of the
  * callbacks are causing changes to the component and then we update enzyme's
