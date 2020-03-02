@@ -31,7 +31,7 @@ describe("<LoginSubmission />", () => {
   });
 
   beforeEach(() => {
-    mockFetch.mockClear();
+    [mockFetch, navigate].forEach(mock => mock.mockClear());
     window.fetch = mockFetch;
     window.localStorage.clear();
     wrapper = mount(<LoginSubmission />);
@@ -80,6 +80,7 @@ describe("<LoginSubmission />", () => {
     await flushPromisesAct();
     wrapper.update();
 
+    expect(navigate).not.toHaveBeenCalled();
     expect(wrapper).toIncludeText(message);
   });
 
