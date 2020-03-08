@@ -21,7 +21,7 @@ describe("<Counter />", () => {
 
 /*
  * refinding the components in shallow mode seems to solve the update problem
- * since simulate() simulates nothing it finds the handler in prop and execute
+ * since simulate() simulates nothing, it finds the handler in prop and execute
  * it
  * https://enzymejs.github.io/enzyme/docs/guides/migration-from-2-to-3.html#calling-props-after-a-state-change
  */
